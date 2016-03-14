@@ -23,6 +23,8 @@ var COLS=26, ROWS=26;
 
 //IDS
 var EMPTY=0, SNAKE=1, FRUIT=2;
+//Directions
+var LEFT=0, UP=1, RIGHT=2, DOWN=3;
 
 
 var grid = {
@@ -103,9 +105,30 @@ function setFood(){
 var canvas, cts, keystate, frames;
 
 
-function main(){}
+function main(){
+    canvas = document.createElement("canvas")
+    canvas.width = COLS*20;
+    canvas.height = ROWS*20;
+    ctx = canvas.getContext("2d");
+    document.body.appendChild(canvas);
 
-function init(){}
+    frames = 0;
+    keystate = {};
+
+    init();
+    loop();
+}
+
+function init(){
+    grid.init(EMPTY, COLS, ROWS);
+
+    var sp = {x:Math.floor(COLS/2), y:ROWS-1};
+    snake.init(UP, sp.x, sp.y);
+    grid.set(SNAKE, sp.x, sp.y);
+
+    setFood();
+}
+
 
 function loop(){}
 
