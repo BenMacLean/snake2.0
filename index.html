@@ -129,6 +129,8 @@ var KEY_LEFT=37, KEY_UP=38, KEY_RIGHT=39, KEY_DOWN=40;
     ctx = canvas.getContext("2d");
     document.body.appendChild(canvas);
 
+    ctx.font = "12px Helvetica";
+
     frames = 0;
     keystate = {};
     document.addEventListener("keydown", function(evt) {})
@@ -215,6 +217,13 @@ var KEY_LEFT=37, KEY_UP=38, KEY_RIGHT=39, KEY_DOWN=40;
       }
     }
 
+    //trying highscore counter
+
+  	if (localStorage["player1"] < score) {
+  		localStorage["player1"] = score;
+  		console.log("logging score");
+
+
   }
 
   function draw(){
@@ -249,7 +258,8 @@ var KEY_LEFT=37, KEY_UP=38, KEY_RIGHT=39, KEY_DOWN=40;
       }
     }
     ctx.fillStyle = black
-    ctx.fillText("SCORE: "+ score, 10, canvas.height-10 )
+    ctx.fillText("SCORE: "+ score, 10, canvas.height-10);
+    ctx.fillText("HIGHSCORE: " + localStorage["player1"], 100, canvas.height-10);
   }
 
   function loop(){}
