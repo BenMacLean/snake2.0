@@ -5,7 +5,7 @@
   <title>Snake Game</title>
   <meta name="description" content="The Brand New Web Site">
   <meta name="author" content="Barattalo.it">
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -14,21 +14,21 @@
 
 
 
-	<!-- run javascript at the end -->
-  <script src="js/scripts.js">
+  <!-- run javascript at the end -->
+  <script>
+
+console.log("starting program");
+  //CONSTANTS
+  var COLS=26, ROWS=26;
+
+  //IDS
+  var EMPTY=0, SNAKE=1, FRUIT=2;
+  //Directions
+  var LEFT=0, UP=1, RIGHT=2, DOWN=3;
 
 
-//CONSTANTS
-var COLS=26, ROWS=26;
-
-//IDS
-var EMPTY=0, SNAKE=1, FRUIT=2;
-//Directions
-var LEFT=0, UP=1, RIGHT=2, DOWN=3;
-
-
-var grid = {
-    width:null,
+  var grid = {
+    width: null,
     heigth: null,
     _grid: null,
 
@@ -42,53 +42,50 @@ var grid = {
         this._grid.push([]);
         for (var y=0; y < r; y++) {
           this._grid[x].push(d);
-
         }
-
-
-
+      }
     },
 
     set: function(val, x, y){
-        this._grid[x][y] = val;
+      this._grid[x][y] = val;
 
     },
 
     get: function(x, y){
-        return thi._grid[x][y];
+      return this._grid[x][y];
     }
-}
+  }
 
-var snake = {
+  var snake = {
 
-  direction: null,
-  _queue: null,
-  last: null,
+    direction: null,
+    _queue: null,
+    last: null,
 
-  init: function(d, x, y) {
-    this.direction = d;
+    init: function(d, x, y) {
+      this.direction = d;
 
-    this._queue = [];
-    this.insert(x,y);
+      this._queue = [];
+      this.insert(x,y);
 
-  },
+    },
 
-  insert: function(x, y) {
-    this._queue.unshift({x:x, y:y}); //put at start of file
-    this.last = this._queue[0];
+    insert: function(x, y) {
+      this._queue.unshift({x:x, y:y}); //put at start of file
+      this.last = this._queue[0];
 
-  },
+    },
 
-  remove: function(){
-    return this._queue.pop();
+    remove: function(){
+      return this._queue.pop();
+
+    }
+
 
   }
 
 
-}
-
-
-function setFood(){
+  function setFood(){
     var empty = [];
     for (var x=0; x < grid.width; x++) {
       for (var y=0; y < grid.height; y++) {
@@ -97,16 +94,18 @@ function setFood(){
         }
       }
     }
-    var randpos = empty[Math.floor(Math.random()*empty.length)];
+    var randompos = empty[Math.floor(Math.random()*empty.length)];
     grid.set(FRUIT, randompos.x, randompos.y)
-}
+  }
 
-//Game OBJECTS
-var canvas, cts, keystate, frames;
+  //Game OBJECTS
+  var canvas, ctx, keystate, frames;
 
 
-function main(){
+  function main(){
+    console.log("here")
     canvas = document.createElement("canvas")
+    console.log("canvas")
     canvas.width = COLS*20;
     canvas.height = ROWS*20;
     ctx = canvas.getContext("2d");
@@ -117,64 +116,67 @@ function main(){
 
     init();
     loop();
-}
+  }
 
-function init(){
+  function init(){
+    console.log("vaing init")
     grid.init(EMPTY, COLS, ROWS);
 
     var sp = {x:Math.floor(COLS/2), y:ROWS-1};
+    console.log(sp);
     snake.init(UP, sp.x, sp.y);
     grid.set(SNAKE, sp.x, sp.y);
 
     setFood();
-}
+  }
 
 
-function loop(){}
-  update();
-  draw();
+
 
   window.requestAnimationFrame(loop, canvas);
 
-function update(){
-  frames++;
+  function update(){
+    frames++;
 
-}
+  }
 
-function draw(){
+  function draw(){
+    console.log("draw method")
     var tw = canvas.width/grid.width;
     var th = canvas.height/grid.height;
 
 
     for (var x=0; x < grid.width; x++) {
       for (var y=0; y < grid.height; y++)
-        switch (grid.get(x, y)) {
-          case EMPTY:
-            ctx.fillStyle = "#fff"
-            break;
-          case SNAKE:
-            ctx.fillStyle = "#0ff"
-            break;
-          case FRUIT:
-            ctx.fillStyle = "#f00"
-            break;
 
-            break;
-          default:
+      switch (grid.get(x, y)) {
+        case EMPTY:
+        ctx.fillStyle = "#fff"
+        break;
+        case SNAKE:
+        ctx.fillStyle = "#0ff"
+        break;
+        case FRUIT:
+        ctx.fillStyle = "#f00"
+        break;
 
-        }
-        ctx.fillRect(x*tw, y*th, tw, th);
+        break;
+        default:
 
       }
+      ctx.fillRect(x*tw, y*th, tw, th);
+
     }
+  }
+
+  function loop(){}
+  main();
+  update();
+  draw();
 
 
-}
 
 
-main();
-
-
-  </script>
+</script>
 </body>
 </html>
