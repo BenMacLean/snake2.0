@@ -1,1 +1,121 @@
-Testing
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Brand New Web Site</title>
+  <meta name="description" content="The Brand New Web Site">
+  <meta name="author" content="Barattalo.it">
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+
+
+
+	<!-- run javascript at the end -->
+  <script src="js/scripts.js">
+
+
+//CONSTANTS
+var COLS=26, ROWS=26;
+
+//IDS
+var EMPTY=0, SNAKE=1, FRUIT=2;
+
+
+var grid = {
+    width:null,
+    heigth: null,
+    _grid: null,
+
+
+    init: fucntion(d, c, r) {
+      this.width = c;
+      this.height = r;
+
+      this._grid = [];
+      for (var x=0; x < c; x++) {
+        this._grid.push([]);
+        for (var y=0; y < r; y++) {
+          this._grid[x].push(d);
+
+        }
+
+
+
+    },
+
+    set: function(val, x, y){
+        this._grid[x][y] = val;
+
+    },
+
+    get: function(x, y){
+        return thi._grid[x][y];
+    }
+}
+
+var snake = {
+
+  direction: null,
+  _queue: null,
+  last: null,
+
+  init: fucntion(d, x, y) {
+    this.direction = d;
+
+    this._queue = [];
+    this.insert(x,y);
+
+  },
+
+  insert: function(x, y) {
+    this._queue.unshift({x:x, y:y}); //put at start of file
+    this.last = this._queue[0];
+
+  },
+
+  remove: function(){
+    return this._queue.pop();
+
+  }
+
+
+}
+
+
+function setFood(){
+    var empty = [];
+    for (var x=0; x < grid.width; x++) {
+      for (var y=0; y < grid.height; y++) {
+        if (grid.get(x,y) === EMPTY) {
+          empty.push({x:x, y:y});
+        }
+      }
+    }
+    var randpos = empty[Math.floor(Math.random()*empty.length)];
+    grid.set(FRUIT, randompos.x, randompos.y)
+}
+
+//Game OBJECTS
+var canvas, cts, keystate, frames;
+
+
+function main(){}
+
+function init(){}
+
+function loop(){}
+
+function update(){}
+
+function draw(){}
+
+main();
+
+
+  </script>
+</body>
+</html>
