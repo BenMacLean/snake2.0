@@ -86,15 +86,15 @@ console.log("starting program");
 
 
   function setFood(){
-    var empty = [];
+    var emptyCells = [];
     for (var x=0; x < grid.width; x++) {
       for (var y=0; y < grid.height; y++) {
         if (grid.get(x,y) === EMPTY) {
-          empty.push({x:x, y:y});
+          emptyCells.push({x:x, y:y});
         }
       }
     }
-    var randompos = empty[Math.floor(Math.random()*empty.length)];
+    var randompos = emptyCells[Math.floor(Math.random()*emptyCells.length)];
     grid.set(FRUIT, randompos.x, randompos.y)
   }
 
