@@ -131,7 +131,11 @@ function init(){
 
 
 function loop(){}
+  update();
+  draw();
 
+  window.requestAnimationFrame(loop, cnavas);
+  
 function update(){}
 
 function draw(){}
