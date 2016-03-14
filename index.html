@@ -117,7 +117,7 @@ var KEY_LEFT=37, KEY_UP=38, KEY_RIGHT=39, KEY_DOWN=40;
   }
 
   //Game OBJECTS
-  var canvas, ctx, keystate, frames;
+  var canvas, ctx, keystate, frames, score,;
 
 
   function main(){
@@ -143,6 +143,7 @@ var KEY_LEFT=37, KEY_UP=38, KEY_RIGHT=39, KEY_DOWN=40;
 
   function init(){
     console.log("vaing init")
+    score = 0;
     grid.init(EMPTY, COLS, ROWS);
 
     var sp = {x:Math.floor(COLS/2), y:ROWS-1};
@@ -161,10 +162,10 @@ var KEY_LEFT=37, KEY_UP=38, KEY_RIGHT=39, KEY_DOWN=40;
   function update(){
     frames++;
 
-    if (keystate[KEY_LEFT]) snake.direction = LEFT;
-    if (keystate[KEY_UP]) snake.direction = UP;
-    if (keystate[KEY_RIGHT]) snake.direction = RIGHT;
-    if (keystate[KEY_DOWN]) snake.direction = DOWN;
+    if (keystate[KEY_LEFT] && snake.direction !== RIGHT) snake.direction = LEFT;
+    if (keystate[KEY_UP] && snake.direction !== DOWN) snake.direction = UP;
+    if (keystate[KEY_RIGHT] && snake.direction !== LEFT) snake.direction = RIGHT;
+    if (keystate[KEY_DOWN] && snake.direction !== UP) snake.direction = DOWN;
 
 
     if(frames%5 === 0){
@@ -196,6 +197,7 @@ var KEY_LEFT=37, KEY_UP=38, KEY_RIGHT=39, KEY_DOWN=40;
         setFood();
         else {
           var tail = snake.remove();
+          score++;
           grid.set(EMPTY, tail.x, tail.y);
           tail.x = nx;
           tail.y = ny;
@@ -246,6 +248,8 @@ var KEY_LEFT=37, KEY_UP=38, KEY_RIGHT=39, KEY_DOWN=40;
 
       }
     }
+    ctx.fillStyle = black
+    ctx.fillText("SCORE: "+ score, 10, canvas.height-10 )
   }
 
   function loop(){}
