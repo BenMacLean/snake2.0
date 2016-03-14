@@ -131,10 +131,13 @@ var grid = {
 
     frames = 0;
     keystate = {};
-    document.addEventListener("keydown", function(evt) {})
-      keystate[evt.keyCode] = true;
-    document.addEventListener("keyup", function(evt) {})
-      delete keystate[evt.keyCode];
+    document.addEventListener("keydown", function(evt) {
+  		keystate[evt.keyCode] = true;
+  	});
+  	document.addEventListener("keyup", function(evt) {
+  		delete keystate[evt.keyCode];
+  	});
+
 
 
     init();
@@ -184,37 +187,45 @@ var grid = {
             break;
       }
 
-      if (0 > nx || nx > grid.width-1 ||
-          0 > ny || ny > grid.height-1 ||
-          grid.get(nx, ny) === SNAKE
-        ){
-        return init();
-      }
+      if (0 > nx || nx > grid.width-1  ||
+  			  0 > ny || ny > grid.height-1 ||
+  			 	grid.get(nx, ny) === SNAKE
+  		 ){
+  			return init();
+  		}
 
-      if(grid.get(nx, ny) === FRUIT){
-        var tail = {x:nx, y:ny}
+  		// check wheter the new position are on the fruit item
+  		if (grid.get(nx, ny) === FRUIT) {
+  			// increment the score and sets a new fruit position
+  			score++;
+  			setFood();
+  		} else {
+  			// take out the first item from the snake queue i.e
+  			// the tail and remove id from grid
+  			var tail = snake.remove();
+  			grid.set(EMPTY, tail.x, tail.y);
+  		}
 
-        setFood();
-        else {
-          var tail = snake.remove();
-          score++;
-          grid.set(EMPTY, tail.x, tail.y);
-          tail.x = nx;
-          tail.y = ny;
+  		// add a snake id at the new position and append it to
+  		// the snake queue
+  		grid.set(SNAKE, nx, ny);
+  		snake.insert(nx, ny);
 
-        }
-      }
 
-      var tail = snake.remove();
-      grid.set(EMPTY, tail.x, tail.y);
-      tail.x = nx;
-      tail.y = ny;
-      grid.set(SNAKE, tail.x, tail.y);
 
-      snake.insert(tail.x, tail.y);
-      }
-    }
 
+  	}
+  	//trying highscore counter
+
+  	if (localStorage["player1"] < score) {
+  		localStorage["player1"] = score;
+  		console.log("logging score");
+
+  	}
+
+
+
+  }
     //trying highscore counter
 
   	if (localStorage["player1"] < score) {
@@ -255,7 +266,7 @@ var grid = {
 
       }
     }
-    ctx.fillStyle = black
+    ctx.fillStyle = "#444"
     ctx.fillText("SCORE: "+ score, 10, canvas.height-10);
     ctx.fillText("HIGHSCORE: " + localStorage["player1"], 100, canvas.height-10);
   }
