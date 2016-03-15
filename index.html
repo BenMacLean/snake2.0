@@ -7,7 +7,7 @@
   canvas {
     display: block;
     position: absolute;
-    border: 1px solid black
+    border: 1px solid black;
     margin: auto;
     top: 0;
     bottom: 0;
@@ -34,32 +34,32 @@
   //Directions
   var LEFT=0, UP=1, RIGHT=2, DOWN=3;
 
-//KEYCODES
-var KEY_LEFT=37, KEY_UP=38, KEY_RIGHT=39, KEY_DOWN=40;
-//Game OBJECTS
+  //KEYCODES
+  var KEY_LEFT=37, KEY_UP=38, KEY_RIGHT=39, KEY_DOWN=40;
+  //Game OBJECTS
 
 
 
-var canvas, ctx, keystate, frames, score;
+  var canvas, ctx, keystate, frames, score;
 
-var grid = {
+  var grid = {
     width: null,
     heigth: null,
     _grid: null,
 
 
     init: function (d, c, r) {
-  		this.width = c;
-  		this.height = r;
+      this.width = c;
+      this.height = r;
 
-  		this._grid = [];
-  		for (var x=0; x < c; x++) {
-  			this._grid.push([]);
-  			for (var y=0; y < r; y++) {
-  				this._grid[x].push(d);
-  			}
-  		}
-  	},
+      this._grid = [];
+      for (var x=0; x < c; x++) {
+        this._grid.push([]);
+        for (var y=0; y < r; y++) {
+          this._grid[x].push(d);
+        }
+      }
+    },
 
     set: function (val, x, y) {
       this._grid[x][y] = val;
@@ -110,65 +110,66 @@ var grid = {
 
   // function main(){
   //   console.log("here")
-    canvas = document.createElement("canvas")
-    // console.log("canvas")
-    canvas.width = COLS*20;
-    canvas.height = ROWS*20;
-    ctx = canvas.getContext("2d");
-    document.body.appendChild(canvas);
+  canvas = document.createElement("canvas")
+  // console.log("canvas")
+  canvas.width = COLS*20;
+  canvas.height = ROWS*20;
+  ctx = canvas.getContext("2d");
+  document.body.appendChild(canvas);
 
-    ctx.font = "12px Helvetica";
+  ctx.font = "12px Helvetica";
 
-    frames = 0;
-    keystate = {};
-    document.addEventListener("keydown", function(evt) {
-  		keystate[evt.keyCode] = true;
-  	});
-  	document.addEventListener("keyup", function(evt) {
-  		delete keystate[evt.keyCode];
-  	});
+  frames = 0;
+  keystate = {};
+  document.addEventListener("keydown", function(evt) {
+    keystate[evt.keyCode] = true;
+  });
+  document.addEventListener("keyup", function(evt) {
+    delete keystate[evt.keyCode];
+  });
 
   init();
   loop();
-// }
-function init() {
-	score = 0;
 
-	grid.init(EMPTY, COLS, ROWS);
+  function init() {
+    score = 0;
 
-  	var sp = {x:Math.floor(COLS/2), y:ROWS-1};
-  	snake.init(UP, sp.x, sp.y);
-  	grid.set(SNAKE, sp.x, sp.y);
+    grid.init(EMPTY, COLS, ROWS);
 
-  	setFood();
+    var sp = {x:Math.floor(COLS/2), y:ROWS-1};
+    snake.init(UP, sp.x, sp.y);
+    grid.set(SNAKE, sp.x, sp.y);
+
+    setFood();
   }
 
+
   /**
-   * The game loop function, used for game updates and rendering
-   */
+  * The game loop function, used for game updates and rendering
+  */
   function loop() {
-  	update();
-  	draw();
-  	// When ready to redraw the canvas call the loop function
-  	// first. Runs about 60 frames a second
-  	window.requestAnimationFrame(loop, canvas);
+    update();
+    draw();
+    // When ready to redraw the canvas call the loop function
+    // first. Runs about 60 frames a second
+    window.requestAnimationFrame(loop, canvas);
   }
 
   function update(){
     frames++;
 
     if (keystate[KEY_LEFT] && snake.direction !== RIGHT) {
-  		snake.direction = LEFT;
-  	}
-  	if (keystate[KEY_UP] && snake.direction !== DOWN) {
-  		snake.direction = UP;
-  	}
-  	if (keystate[KEY_RIGHT] && snake.direction !== LEFT) {
-  		snake.direction = RIGHT;
-  	}
-  	if (keystate[KEY_DOWN] && snake.direction !== UP) {
-  		snake.direction = DOWN;
-  	;
+      snake.direction = LEFT;
+    }
+    if (keystate[KEY_UP] && snake.direction !== DOWN) {
+      snake.direction = UP;
+    }
+    if (keystate[KEY_RIGHT] && snake.direction !== LEFT) {
+      snake.direction = RIGHT;
+    }
+    if (keystate[KEY_DOWN] && snake.direction !== UP) {
+      snake.direction = DOWN;
+    }
 
     if(frames%5 === 0){
       var nx = snake.last.x;
@@ -176,59 +177,49 @@ function init() {
 
       switch (snake.direction){
         case LEFT:
-            nx--;
-            break;
+        nx--;
+        break;
         case UP:
-            ny--;
-            break;
+        ny--;
+        break;
         case RIGHT:
-            nx++;
-            break;
+        nx++;
+        break;
         case DOWN:
-            ny++;
-            break;
+        ny++;
+        break;
       }
 
       if (0 > nx || nx > grid.width-1  ||
-  			  0 > ny || ny > grid.height-1 ||
-  			 	grid.get(nx, ny) === SNAKE
-  		 ){
-  			return init();
-  		}
+        0 > ny || ny > grid.height-1 ||
+        grid.get(nx, ny) === SNAKE
+      ){
+        return init();
+      }
 
-  		// check wheter the new position are on the fruit item
-  		if (grid.get(nx, ny) === FRUIT) {
-  			// increment the score and sets a new fruit position
-  			score++;
-  			setFood();
-  		} else {
-  			// take out the first item from the snake queue i.e
-  			// the tail and remove id from grid
-  			var tail = snake.remove();
-  			grid.set(EMPTY, tail.x, tail.y);
-  		}
+      // check wheter the new position are on the fruit item
+      if (grid.get(nx, ny) === FRUIT) {
+        // increment the score and sets a new fruit position
+        score++;
+        setFood();
+      } else {
+        // take out the first item from the snake queue i.e
+        // the tail and remove id from grid
+        var tail = snake.remove();
+        grid.set(EMPTY, tail.x, tail.y);
+      }
 
-  		// add a snake id at the new position and append it to
-  		// the snake queue
-  		grid.set(SNAKE, nx, ny);
-  		snake.insert(nx, ny);
+      // add a snake id at the new position and append it to
+      // the snake queue
+      grid.set(SNAKE, nx, ny);
+      snake.insert(nx, ny);
+    }
+    //trying highscore counter
 
-
-
-
-  	}
-  	//trying highscore counter
-
-  	if (localStorage["player1"] < score) {
-  		localStorage["player1"] = score;
-  		console.log("logging score");
-
-  	}
-
-
-
-
-
+    if (localStorage["player1"] < score) {
+      localStorage["player1"] = score;
+      console.log("logging score");
+    }
   }
 
   function draw(){
@@ -256,8 +247,8 @@ function init() {
   }
 
 
-    //
-    main();
+  //
+  main();
 
 
 
